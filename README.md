@@ -58,6 +58,7 @@ viene chiesta generalmente una autorizzazione ad usare i dati per un determinato
 3.si può accedere alle risorse utilizzando il token ricevuto.
 
 La risposta sarà di questo tipo:
-![StreamerTwitch](https://user-images.githubusercontent.com/82471617/114633531-f3086680-9cc0-11eb-87b5-b1a707b9e6fd.jpg)
-.
+
+![StreamerTwitch](https://user-images.githubusercontent.com/82471617/114634529-03b9dc00-9cc3-11eb-813e-e9ea79f6d070.jpg)
+
 
