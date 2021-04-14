@@ -46,7 +46,7 @@ Le altre funzionalità della web-app le si possono trovare cliccando nel menù s
 Nelle funzioni da rendere sincrone, ovvero quelle per la quali si deve aspettare un dato o un processo affinché possano partire, per evitare di annidare troppe funzioni, utilizzo il sistema delle promise: attendo che una promessa sia soddisfatta prima di poter eseguire il compito successivo. Le promise nel progetto sono presenti ogni volta che vado ad fare operazioni sul database(come si è potuto notare precedentemente con la chiamata get_all), poiché voglio sapere la rev di ogni documento oltre ad altri dati contestuali prima di poter operare. Uso le promise anche quando vado ad eseguire il flusso delle chiamate REST su twitch e su google.
 In Twitch Streamer Live verrà chiesto l'accesso, ma lo scope non è richiesto(questa specifica API twitch, Get Streams, non richiede alcuno scope).
 
-![Twitchapi](https://user-images.githubusercontent.com/82471617/114632930-e33c5280-9cbf-11eb-882b-da097f71d376.jpg)
+![Twitchapi](https://user-images.githubusercontent.com/82471617/114667526-db040780-9cff-11eb-9c63-facee2b2c6b2.jpg)
 
 Il flusso di come avviene una richiesta tramite API oauth è standard:
 
