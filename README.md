@@ -111,7 +111,7 @@ A qualunque punto della partita si può salvare su un database esterno la partit
 ![salvapartita_code](https://user-images.githubusercontent.com/82471617/114630741-85a60700-9cbb-11eb-85fc-d462dd9399f0.jpg)
 ![salvapartita_code2](https://user-images.githubusercontent.com/82471617/114631058-2f859380-9cbc-11eb-9606-5c4f64341051.jpg)
 
-Quando la partita viene salvata viene controllata se esiste già un documento relativo all'utente(nel caso della immagine l'utente è DaddySoldoni). Se non esiste bisogna crearlo. Se esiste allora si deve aggiornare il suo documento e aggiungere la partita al database, senza cancellare le partite precedenti. Inoltre se quella stessa partita è già stata salvata in un momento precedente, la si deve aggiornare sovrascrivendola, e non creando una "copia" superflua. Per far ciò per ogni partità viene salvata una variabile contenente l'istante di tempo in cui viene creata e servirà come identificatore della singola partita.
+Quando la partita viene salvata viene controllata se esiste già un documento relativo all'utente. Se non esiste bisogna crearlo. Se esiste allora si deve aggiornare il suo documento e aggiungere la partita al database, senza cancellare le partite precedenti. Inoltre se quella stessa partita è già stata salvata in un momento precedente, la si deve aggiornare sovrascrivendola, e non creando una "copia" superflua. Per far ciò per ogni partità viene salvata una variabile contenente l'istante di tempo in cui viene creata e servirà come identificatore della singola partita.
 
 Per prelevare la partita, a seguito del click sul bottone sottostante verrà fatta una get che restituisce le partite di un utente in formato json.
 
