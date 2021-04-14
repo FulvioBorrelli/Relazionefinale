@@ -62,4 +62,5 @@ La risposta sarà di questo tipo:
 
 ![StreamerTwitch](https://user-images.githubusercontent.com/82471617/114634529-03b9dc00-9cc3-11eb-813e-e9ea79f6d070.jpg)
 
+Per l'API google il funzionamento è lo stesso. L'idea di questa funzionalità è che ci potrebbero essere dei tornei organizzati da terzi o dalla stessa web-app, che saranno visibili per gli utenti. Nel mio progetto, per semplicità ho creato un torneo fittizio chiamato "1 Torneo degli Scacchetti" che è visualizzato su un file html quando
 
