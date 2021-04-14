@@ -18,6 +18,8 @@ npm install express: framework per i routing
 npm install socket.io: libreria per websocket
 npm install dotenv: il file .env permette di proteggere le informazioni sensibili
 npm install request: serve per formulare chiamate http
+
+Per funzionare la web-app ha bisogno di un database di supporto esterno. Una volta instanziato il database si deve modificare opportunamente la variabile url_db, modificando l'uri, l'admin, la password e la port.
 ```
 
 
