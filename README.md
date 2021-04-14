@@ -147,7 +147,7 @@ Il flusso è identico a quello delle API twitch. Vi sono due differenze: è rich
 2. Chiedo token a google
 3. Accedo a google calendar tramite il token per prelevare il calendario di cui l'utente è "owner"(altrimenti non avrei i permessi di scrittura)
 4. Vado sul database della web-App e prelevo la data relativa al torneo selezionato dall'utente
-5. uso la data e il token per accedere a calendar e salvare un evento nella data selezionata.
+5. uso il token per accedere a calendar e salvo un evento nella data prelevata.
 
 ![googleapi1](https://user-images.githubusercontent.com/82471617/114752965-34e3ec00-9d57-11eb-8994-2ac43faecc5e.jpg)
 ![googleapi2](https://user-images.githubusercontent.com/82471617/114752981-39100980-9d57-11eb-89ae-4ad28af0a0d7.jpg)
