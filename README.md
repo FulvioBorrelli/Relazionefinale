@@ -8,7 +8,7 @@ Per soddisfare i requisiti del progetto ho implementato:
 
 -Utilizzo di websocket. Ho utilizzato i web-socket per realizzare un sistema di queue che smisterà i giocatori in base a determinati criteri, il gioco degli scacchi online e una chat tra i giocatori che si sfidano.
 
--API REST da richiamare. La web-app offre a disposizione le partite giocate dai giocatori e informazioni su eventuali tornei.
+-API REST da richiamare. La web-app offre a disposizione le partite giocate dai giocatori, possibilità di cancellare un utente con tutte le sue partite e possibilità di creare, eliminare e ottenere informazioni su eventuali tornei.
 
 2.Per realizzare il lato server ho usato Nodejs. Basato su javascript è di tipo event-driven, ossia il flusso di esecuzione del programma non segue percorsi fissi come nella programmazione tradizionale ma dipende fortemente dal verificarsi di eventi. Questo lo rende adatto per applicazioni web. Per semplificare il routing(la risposta ad una richiesta del client verso un endpoint) ho utilizzato Express, un framework di nodejs. Per i websocket ho utilizzato la libreria Socket.io.
 
