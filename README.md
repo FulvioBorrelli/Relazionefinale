@@ -142,7 +142,7 @@ Per l'API google il funzionamento è lo stesso. Gli utenti possono salvarsi un p
 
 ![promemoria](https://user-images.githubusercontent.com/82471617/114752511-a7a09780-9d56-11eb-8837-9b0a7e7ecf79.jpg)
 
-Il flusso è identico a quello delle API twitch. Vi sono due differenze: è richiesto lo scope(lettura e scrittura su calendar di calendari ed eventi), e prima di completare la scrittura su calendar vi è la necessità di prelevare i dati dal db, che non è necessariamente in locale.I passaggi dell'operazione sono:
+Il flusso è identico a quello delle API twitch. Vi sono due differenze: è richiesto lo scope(lettura e scrittura su calendar di calendari ed eventi), e prima di completare la scrittura su calendar bisogna prelevare i dati dal db, che non è necessariamente in locale.I passaggi dell'operazione sono:
 1. Chiedo autenticazione e autorizzazione all utente
 2. Chiedo token a google
 3. Accedo a google calendar tramite il token per prelevare il calendario di cui l'utente è "owner"(altrimenti non avrei i permessi di scrittura)
