@@ -3,8 +3,11 @@
 1.Il progetto consiste in una web-app relativa al gioco degli scacchi. Gli utenti potranno giocare e chattare in rete, salvare in un database le proprie partite e recuperarle eventualmente in un secondo momento, iscriversi ad eventuali tornei e scoprire in modo rapido chi sono gli utenti più visti che effettuano live di scacchi sulla piattaforma di twitch. Il progetto non è esente da bug ed è privo di alcune funzionalità previste nel classico gioco degli scacchi, come ad esempio mosse come arrocco o en passant, non essendo queste l'obiettivo principale del corso di reti di calcolatori. Pertanto chiamerò il gioco "scacchi semplificato".
 Nel progetto, dovendolo testare, ho usato il localhost e la porta 3000 per il server, 5984 per il database(couchdb) instanziato con docker. Userò pertanto questi come riferimenti.
 Per soddisfare i requisiti del progetto ho implementato:
--Due chiamate REST esterne, di cui una oauth e verso servizi esterni. Nel mio progetto vi è una chiamata verso la piattaforma twitch dalla quale si ottiene una stringa di 20 utenti della piattaforma twitch che effettuano streaming di scacchi. L'altra chiamata REST serve per salvare su google calendar eventi di eventuali tornei di scacchi da svolgere sulla piattaforma, a cui gli utenti potranno anche iscriversi.
--utilizzo di websocket. Ho utilizzato i web-socket per realizzare un sistema di queue che smisterà i giocatori in base a determinati criteri, il gioco degli scacchi online e una chat tra i giocatori che si sfidano.
+
+-Due chiamate REST esterne, di cui una oauth e verso servizi esterni. Nel mio progetto vi è una chiamata verso la piattaforma twitch dalla quale si ottiene una stringa di 20 utenti della piattaforma twitch che effettuano streaming di scacchi. L'altra chiamata REST serve per salvare su google calendar eventi di eventuali tornei di scacchi da svolgere sulla piattaforma.
+
+-Utilizzo di websocket. Ho utilizzato i web-socket per realizzare un sistema di queue che smisterà i giocatori in base a determinati criteri, il gioco degli scacchi online e una chat tra i giocatori che si sfidano.
+
 -API REST da richiamare. La web-app offre a disposizione le partite giocate dai giocatori e informazioni su eventuali tornei.
 
 2.Per realizzare il lato server ho usato Nodejs. Basato su javascript è di tipo event-driven, ossia il flusso di esecuzione del programma non segue percorsi fissi come nella programmazione tradizionale ma dipende fortemente dal verificarsi di eventi. Questo lo rende adatto per applicazioni web. Per semplificare il routing(la risposta ad una richiesta del client verso un endpoint) ho utilizzato Express, un framework di nodejs. Per i websocket ho utilizzato la libreria Socket.io.
