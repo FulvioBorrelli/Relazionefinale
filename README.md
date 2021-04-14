@@ -62,5 +62,6 @@ La risposta sarà di questo tipo:
 
 ![StreamerTwitch](https://user-images.githubusercontent.com/82471617/114634529-03b9dc00-9cc3-11eb-813e-e9ea79f6d070.jpg)
 
-Per l'API google il funzionamento è lo stesso. L'idea di questa funzionalità è che ci potrebbero essere dei tornei organizzati da terzi o dalla stessa web-app, che saranno visibili per gli utenti. Nel mio progetto, per semplicità ho creato un torneo fittizio chiamato "1 Torneo degli Scacchetti" che è visualizzato su un file html quando
+Per l'API google il funzionamento è lo stesso. Gli utenti possono salvarsi un promemoria sul proprio google calendar di un torneo che sarà svolto sulla web-app.
 
+![promemoria](https://user-images.githubusercontent.com/82471617/114752511-a7a09780-9d56-11eb-8837-9b0a7e7ecf79.jpg)
