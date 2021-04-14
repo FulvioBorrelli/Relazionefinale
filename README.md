@@ -98,7 +98,7 @@ sul click del bottone "Cerca" viene emesso un messaggio che il server recepirà 
 
 ![crea_room](https://user-images.githubusercontent.com/82471617/114626632-49bb7380-9cb4-11eb-850e-476e67b05412.jpg)
 
-Nella variabile queue verranno salvati gli identificatori di ogni socket delle connessioni e verranno inocodati i client in attesa di un avversario. Appena due client sono in coda verranno messi in una room virtuale tramite il comando socket.join(room), e rimarranno in comunicazione per tutta la durata della partita. In questa connessione vi è anche una chat con cui potranno comunicare i due giocatori. Se nel frattempo si connettono altri due giocatori essi verranno messi in comunicazione in un'altra room.
+Nella variabile queue verranno salvati gli identificatori di ogni socket delle connessioni e verranno inocodati i client in attesa di un avversario. Appena due client sono in coda verranno messi in una room virtuale tramite il comando socket.join(room), e rimarranno in comunicazione per tutta la durata della partita. In questa connessione vi è anche una chat con cui potranno comunicare. Se nel frattempo si connettono altri due giocatori essi verranno messi in comunicazione in un'altra room.
 
 
 ![2_room](https://user-images.githubusercontent.com/82471617/114628986-17ac1080-9cb8-11eb-9c74-55313f14ee7e.jpg)
