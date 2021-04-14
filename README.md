@@ -1,4 +1,4 @@
-## Progetto reti di calcolatori
+# Progetto reti di calcolatori
 
 1.Il progetto consiste in una web-app relativa al gioco degli scacchi. Gli utenti potranno giocare e chattare in rete, salvare in un database le proprie partite e recuperarle eventualmente in un secondo momento, iscriversi ad eventuali tornei e scoprire in modo rapido chi sono gli utenti più visti che effettuano live di scacchi sulla piattaforma di twitch. Il progetto non è esente da bug ed è privo di alcune funzionalità previste nel classico gioco degli scacchi, come ad esempio mosse come arrocco o en passant, non essendo queste l'obiettivo principale del corso di reti di calcolatori. Pertanto chiamerò il gioco "scacchi semplificato".
 Nel progetto, dovendolo testarer, ho usato il localhost e la porta 3000 per il server, 5984 per il database(couchdb) instanziato con docker. Userò pertanto questi come riferimenti.
@@ -10,7 +10,81 @@ Per soddisfare i requisiti del progetto ho implementato:
 2.Per realizzare il lato server ho usato Nodejs. Basato su javascript è di tipo event-driven, ossia il flusso di esecuzione del programma non segue percorsi fissi come nella programmazione tradizionale ma dipende fortemente dal verificarsi di eventi. Questo lo rende adatto per applicazioni web. Per semplificare il routing(la risposta ad una richiesta del client verso un endpoint) ho utilizzato Express, un framework di nodejs. Per i websocket ho utilizzato la libreria Socket.io.
 
 
-#WEBSOCKET
+
+# INSTALL
+Oltre al comando "npm install" devono essere installate 4 dipendenze:
+```
+npm install express: framework per i routing
+npm install socket.io: libreria per websocket
+npm install dotenv: il file .env permette di proteggere le informazioni sensibili
+npm install request: serve per formulare chiamate http
+```
+
+
+# API
+
+## Crea Torneo
+```
+GET     /creatorneo
+Descrizione: Viene creato un torneo che abbia una stringa nome e una stringa data in questo formato d'esempio "2021-05-23T09:00:00-07:00" passati come parametro di tipo query.
+Restituisce: 201
+Restituisce:409 Error
+```
+
+## Prendi Torneo
+```
+GET     
+/get/torneo
+Descrizione: Viene restituito un torneo che abbia una stringa "nome" passato come parametro di tipo query.
+Restituisce: 200 
+{
+  "_id": "string",
+  "_rev": "string",
+  "nome": "string",
+  "date": "string"
+}
+Restituisce:405 invalid input
+```
+## Elimina Torneo
+```
+GET
+/delete/torneo
+Descrizione: Viene eliminato un torneo che abbia una stringa "nome" passata come parametro di tipo query.
+Restituisce: 200
+Restituisce: 404 Not found
+```
+
+## Prendi Partite
+```
+GET    /get/partite
+Descrizione: Viene restituito un user con tutte le sue partite che abbia una stringa "nome" passata come parametro di tipo query
+Restituisce:200 
+{
+  "_id": "string",
+  "_rev": "string",
+  "game": [
+    {
+      "time_game": 0,
+      "Partita": "string"
+    }
+  ]
+}
+Restituisce: 405 Invalid input
+```
+
+## Elimina User
+```
+GET
+/delete/user
+Descrizione: Viene eliminato un user che abbia una stringa "nome" passata come parametro di tipo query.
+Restituisce: 200
+Restituisce: 404 Not found
+```
+
+
+
+
+# WEBSOCKET
 
 -Collegandosi al link principale viene ricevuto un documento html ![homepage](https://user-images.githubusercontent.com/82471617/114623485-a2d4d880-9caf-11eb-8ca8-ce91cff336dc.png)
 
@@ -39,7 +113,7 @@ Quando la partita viene salvata viene controllata se esiste già un documento re
 
 Per prelevare la partita, a seguito del click sul bottone sottostante verrà fatta una get che restituisce le partite di un utente in formato json.
 
-#REST
+# REST
 
 Le altre funzionalità della web-app le si possono trovare cliccando nel menù soprastante su "tornei" e "Twitch Streamer Live".
 
