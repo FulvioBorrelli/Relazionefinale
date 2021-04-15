@@ -141,9 +141,9 @@ La risposta sarà di questo tipo:
 
 ![StreamerTwitch](https://user-images.githubusercontent.com/82471617/114634529-03b9dc00-9cc3-11eb-813e-e9ea79f6d070.jpg)
 
-Per l'API google il funzionamento è lo stesso. Gli utenti possono salvarsi un promemoria sul proprio google calendar di un torneo che sarà svolto sulla web-app.
+Per l'API google il funzionamento è lo stesso. Andando su "tornei", verranno mostrati al massimo 3 tornei prelevati dal db e gli utenti possono salvarsi un promemoria sul proprio google calendar dell'evento.
 
-![promemoria](https://user-images.githubusercontent.com/82471617/114752511-a7a09780-9d56-11eb-8837-9b0a7e7ecf79.jpg)
+![promemoria](https://user-images.githubusercontent.com/82471617/114878728-d5421b00-9e00-11eb-8477-8be1ea4eff35.jpg)
 
 Il flusso è identico a quello delle API twitch. Vi sono due differenze: è richiesto lo scope(lettura e scrittura su calendar di calendari ed eventi), e prima di completare la scrittura su calendar bisogna prelevare i dati dal db, che non è necessariamente in locale.I passaggi dell'operazione sono:
 1. Chiedo autenticazione e autorizzazione all utente
