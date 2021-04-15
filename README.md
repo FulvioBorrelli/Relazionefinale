@@ -141,7 +141,7 @@ La risposta sarà di questo tipo:
 
 ![StreamerTwitch](https://user-images.githubusercontent.com/82471617/114634529-03b9dc00-9cc3-11eb-813e-e9ea79f6d070.jpg)
 
-Per l'API google il funzionamento è lo stesso. Andando su "Tornei", verranno mostrati al massimo 3 tornei prelevati dal db e gli utenti possono salvarsi un promemoria sul proprio google calendar dell'evento.
+Per l'API google il funzionamento è lo stesso. Andando su "Tornei", verranno mostrati i nomi di al massimo 3 tornei prelevati dal db e gli utenti possono salvarsi un promemoria sul proprio google calendar dell'evento.
 
 ![promemoria](https://user-images.githubusercontent.com/82471617/114878728-d5421b00-9e00-11eb-8477-8be1ea4eff35.jpg)
 
