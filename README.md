@@ -91,7 +91,7 @@ Restituisce: 404 Not found
 
 # WEBSOCKET
 
--Collegandosi al link principale viene ricevuto un documento html ![homepage](https://user-images.githubusercontent.com/82471617/114623485-a2d4d880-9caf-11eb-8ca8-ce91cff336dc.png)
+-Collegandosi al link principale(nel mio caso http://localhost:3000) viene ricevuto un documento html ![homepage](https://user-images.githubusercontent.com/82471617/114623485-a2d4d880-9caf-11eb-8ca8-ce91cff336dc.png)
 
 Per poter giocare a scacchi bisogna prima cercare un avversario cliccando sul tasto cerca.
 
