@@ -152,6 +152,7 @@ Il flusso è identico a quello delle API twitch. Vi sono due differenze: è rich
 4. Vado sul database della web-App e prelevo la data relativa al torneo selezionato dall'utente
 5. uso il token per accedere a calendar e salvo un evento nella data prelevata.
 
-![googleapi1](https://user-images.githubusercontent.com/82471617/114752965-34e3ec00-9d57-11eb-8994-2ac43faecc5e.jpg)
-![googleapi2](https://user-images.githubusercontent.com/82471617/114752981-39100980-9d57-11eb-89ae-4ad28af0a0d7.jpg)
+![googleapi1](https://user-images.githubusercontent.com/82471617/114835024-71ecc480-9dd1-11eb-9760-6b6d782373b9.jpg)
+![googleapi2](https://user-images.githubusercontent.com/82471617/114835046-774a0f00-9dd1-11eb-9c8c-bc6448c41ab8.jpg)
+
 
