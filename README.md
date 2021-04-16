@@ -106,7 +106,10 @@ Nella variabile queue verranno salvati gli identificatori di ogni socket delle c
 
 ![2_room](https://user-images.githubusercontent.com/82471617/114628986-17ac1080-9cb8-11eb-9c74-55313f14ee7e.jpg)
 
-Questo è un esempio di due partite che vengono gestite in contemporanea. 
+Questo è un esempio di due partite che vengono gestite in contemporanea.
+
+Per effettuare una mossa basterà cliccare sul pezzo che si vuole muovere e subito dopo cliccare dove si vuole muoverlo. Non è consentito muovere pezzi dell'avversario né muovere i propri pezzi durante il turno dell'avversario. Il proprio colore lo si può leggere a destra della scacchiera dove per "N0" indica nero e "B1" indica bianco. 
+Alcune mosse non sono consentite(ad esempio il pedone muove sempre solo di una casella in avanti, ad esempio la classica apertura "E2-E4" non è stata ancora implementata, quindi non è consentita. "E2-E3" è riconosciuta valida invece.
 
 A qualunque punto della partita si può salvare su un database esterno la partita, specificando un nome che sarà l'identificativo del documento che si andrà a creare sul database. Successivamente tramite il pulsante in fondo a tutto si potrà recuperare la partita con una chiamata get, specificando il nome dell'utente che sarà passato come parametro nella chiamata.
 
