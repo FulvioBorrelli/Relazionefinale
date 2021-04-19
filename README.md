@@ -1,5 +1,8 @@
 # Progetto reti di calcolatori
 
+Edit il 19/04/2021: Ho implementato il gioco degli scacchi con quasi tutte le sue funzionalità nei giorni seguenti alla pubblicazione di questo progetto. Pertanto oggi, 19/04/2021 ho pubblicato i nuovi file "server1.js" e "index1.js" che sono sostitutivi rispettivamente dei file "server.js" e "index.js". I vecchi file li ho comunque lasciati pubblicati.
+
+
 1.Il progetto consiste in una web-app relativa al gioco degli scacchi. Gli utenti potranno giocare e chattare in rete, salvare in un database le proprie partite e recuperarle eventualmente in un secondo momento, salvare sul proprio google calendar eventuali tornei e scoprire in modo rapido chi sono gli utenti più visti che effettuano live di scacchi sulla piattaforma di twitch. Il progetto non è esente da bug ed è privo di alcune funzionalità previste nel classico gioco degli scacchi, come ad esempio mosse come arrocco o en passant, non essendo queste l'obiettivo principale del corso di reti di calcolatori. Pertanto chiamerò il gioco "scacchi semplificato".
 Nel progetto, dovendolo testare, ho usato il localhost e la porta 3000 per il server, 5984 per il database(couchdb) instanziato con docker. Userò pertanto questi come riferimenti.
 Per soddisfare i requisiti del progetto ho implementato:
