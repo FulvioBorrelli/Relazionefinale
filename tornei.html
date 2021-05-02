@@ -5,41 +5,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     
-<div style="display: inline;">
-    <form style="display: inline;" action="https://localhost:3000" method="get">
-      <input type="submit" value="Home">
-    </form>
-    <form style="display: inline;" action="https://localhost:3000/tornei" method="get">
-      <input type="submit" value="Tornei">
-    </form>
-    <form style="display: inline;" action="https://localhost:3000/s" method="get">
-      <input type="submit" value="Twitch Streamer Live">
-    </form>
-</div>
+  <div class='bar'>
+    <nav>
+      <h2>Chessing</h2>
+      <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/tornei">Tornei</a></li>
+          <li><a href="/s">Streamer Twitch</a></li>
+      </ul>
+    </nav>
+  </div>
+
+
 <h1> EVENTI </h1>
 
 In seguito posteremo tutti gli eventi futuri.
 Clicca su salva se vuoi un promemoria dell'evento sul tuo google-calendar!
 
 
-<form id="form0" action="https://localhost:3000/torneo/promemoria" method="get"><br>
+<form id="form0" action="/torneo/promemoria" method="get"><br>
   <input id="input0" type="text" hidden name="nome_torneo" value="">
   <div id="output0"></div>
     <br><input style="display: none;" id="salva0" type="submit" value="Salva"><br>
   
 </form>
 
-<form id="form1" action="https://localhost:3000/torneo/promemoria" method="get"><br>
+<form id="form1" action="/torneo/promemoria" method="get"><br>
   <input id="input1" type="text" hidden name="nome_torneo" value="">
   <div id="output1"></div>
     <br><input style="display: none;" id="salva1" type="submit" value="Salva"><br>
   
 </form>
 
-<form id="form2" action="https://localhost:3000/torneo/promemoria" method="get"><br>
+<form id="form2" action="/torneo/promemoria" method="get"><br>
   <input id="input2" type="text" hidden name="nome_torneo" value="">
   <div id="output2"></div>
     <br><input style="display: none;" id="salva2" type="submit" value="Salva"><br>

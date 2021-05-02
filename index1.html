@@ -9,22 +9,22 @@
 
 
 </head>
-<body  style=" align-items: center;">
-  <div style="display: inline;">
-    <form style="display: inline;" action="https://localhost:3000" method="get">
-      <input type="submit" value="Home">
-    </form>
-    <form style="display: inline;" action="https://localhost:3000/tornei" method="get">
-      <input type="submit" value="Tornei">
-    </form>
-    <form style="display: inline;" action="https://localhost:3000/s" method="get">
-      <input type="submit" value="Twitch Streamer Live">
-    </form>
+<body style=" align-items: center;">
+  <div class='bar'>
+    <nav>
+      <h2>Chessing</h2>
+      <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/tornei">Tornei</a></li>
+          <li><a href="/s">Streamer Twitch</a></li>
+      </ul>
+    </nav>
   </div>
+
   
 
 <div style="display: flex;">
-<div style="display: inline;">
+<div class="container" style="display: inline;">
   <table class="tabella" style="font-size: 45px; text-align: center;margin-left: auto;margin-right: auto;">
     <tr>
       <td style="background-color: tan; border:1px solid #000000; width: 1.4cm; height:1.4cm;" onclick="myFunction(0,0)"><i id="A8" class="fas fa-chess-rook" style="color:black;"></i></td>
@@ -117,6 +117,7 @@
   </table>
 </div>
 <div style="display: inline; margin-left: auto;margin-right: auto;">
+  <br>
   <button id="send">Cerca Partita</button>
   <br>
   <p><strong>Linee Consigliate</strong></p>
@@ -124,32 +125,38 @@
   <div id="linea2"></div>
   <div id="linea3"></div>
   <br>
-  <div id="output"></div>
+  <div class="mosse-partita" >
+    <div class="mosse-header">
+      <h3>Partita</h3>
+    </div>
+    <div class="chatting" id="output"></div>
+  </div>
   <br>
 </div>
 </div>
   <h1> CHAT </h1>
   <input id="message" type="text" placeholder="inserisci il messaggio"/>
   <button id="send_message">Manda messaggio</button>
-  <div id="chatte"></div>
+  <div class="chatcontainer" >
+    <div class="chat-header">
+      <h3>Chat</h3>
+    </div>
+    <div class="chatting" id="chatte"></div>
+  </div>
   <br>
   
   
 <h1> SALVA PARTITA </h1>
-Inserisci il tuo nickname<input id="nome" value="" type="text"/>
+Inserisci il tuo username : <input id="nome" value="" type="text"/>
 <button id="salva">Salva Partita</button>
 <div id="salva_output>"></div>
 <br>
 
-
-<form action="https://localhost:3000/get/partite" method="get">
-  <h1> Inserisci il tuo nome per ricevere le partite che hai giocato!</h1>
-  Nome:<br>
+<form action="/get/partite" method="get">
+  <h1> Clicca per ricevere le partite che hai giocato!</h1>
   <div name="uri" value="/my_database"></div>
-  <input type="text" name="nome" value="">
-  <br>
-
   <input type="submit" value="Submit">
+  
 </form>
 
 
@@ -614,7 +621,7 @@ btn_mex.addEventListener('click',function(){
 
 
 socket.on('chat',function(data){
-  chatte.innerHTML +='<p><strong>'+mittente+" : "+data+'</strong>'+'</p>';
+  chatte.innerHTML +='<p><strong>'+mittente+" : "+'</strong>'+data+'</p>';
   mittente="avversario";
 });
 
@@ -629,7 +636,7 @@ socket.on('chi_inizia',function(data){
   mio_colore=data.mio_colore;
   if(mio_colore=="N")socket.emit('inizializza_contatore_nero')
   turn=data.make_turn;
-  output.innerHTML +='<p><strong>'+" colore = "+mio_colore+turn+'</strong>'+'</p>';
+  output.innerHTML +='<p><strong>'+" colore = "+mio_colore+'</strong>'+'</p>';
 });
 
 socket.on('inizio',function(data){

@@ -1,0 +1,173 @@
+* {
+  margin: 20;
+  padding: 20;
+  box-sizing: border-box;
+  
+}
+
+
+
+body {
+  background-color: rgb(32, 34, 34);
+  font-family: 'Space Mono', monospace;
+  font-family: 'Open Sans', sans-serif;
+  color: #ffffff;
+  max-width: 760px;
+  margin: auto;
+  font-size: 1rem;
+}
+.container{
+  padding: 20px;
+}
+
+.bar{
+  border-bottom: solid 1px rgb(126, 126, 126);
+  width: 100%;
+  height: 100%;
+  font-size: 1.5rem;
+}
+
+  nav {
+    
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  nav > ul > li {
+    list-style: none;
+    display: inline-block;
+  }
+  
+  nav > ul > li > a,
+  a {
+    text-decoration: none;
+    color: #db2777;
+    padding: 8px 16px;
+    border-radius: 8px;
+  }
+
+  nav > ul > li > a:hover,
+  a:hover {
+    background-color: #fdf2f8;
+  }
+
+
+  main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  form.lg-form {
+    margin: 16px;
+    padding: 32px;
+    border: 4px solid #d1d5db;
+    min-width: 400px;
+    border-radius: 16px;
+  }
+  
+  .lg-form label,
+  .lg-form input {
+    display: block;
+    min-width: 100%;
+    margin: 8px 0px;
+  }
+  
+  .lg-form label {
+    font-weight: bold;
+  }
+  
+  .lg-form input {
+    height: 44px;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 1rem;
+    background-color: #f3f4f6;
+  }
+  
+  .lg-form input[type='submit'] {
+    margin: 16px 0;
+    background-color: #db2777;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  input:focus {
+    outline: none;
+    background-color: #fff;
+    border: 2px solid #f3f4f6;
+    /* box-shadow: 0 0 8px #fdf2f8; */
+  }
+  
+ 
+  table {
+    background-color:rgb(44, 42, 42);
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    margin-top: 32px;
+    min-width: 550px;
+    min-height: 550px;
+    border: none;
+    border-spacing: 0;
+    border: 4px solid #d1d5db;
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 2px 9px 25px black;
+  }
+  form {
+    background-color: rgb(44, 42, 42);
+    min-width: 600px;
+    border: none;
+    border-spacing: 0;
+    border: 4px solid #d1d5db;
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 2px 9px 25px black;
+  }
+ 
+.chatcontainer{
+  box-sizing: border-box;
+  border: none;
+  border-spacing: 0;
+  border: 4px solid #d1d5db;
+  border-radius: 10px;
+  box-shadow: 2px 9px 25px black;
+  width: 100%;
+  height: 300px;
+	background: rgb(51, 50, 50);
+	margin: 30px auto;
+  overflow-y: auto;
+}
+.chat-header{
+  overflow: hidden;
+  border-bottom: solid 2px #d1d5db;
+  width: 100%;
+  padding-left: 20px;
+  background:rgb(24, 24, 24)
+}
+.chatting{
+  padding-left: 10px;
+}
+
+.mosse-partita{
+  box-sizing: border-box;
+  border: none;
+  border-spacing: 0;
+  border: 4px solid #d1d5db;
+  border-radius: 10px;
+  box-shadow: 2px 9px 25px black;
+  width: 100%;
+  min-width: 400px;
+  height: 500px;
+	background: rgb(51, 50, 50);
+	margin: 30px auto;
+  overflow-y: auto;
+}
+.mosse-header{
+  overflow: hidden;
+  border-bottom: solid 2px #d1d5db;
+  width: 100%;
+  padding-left: 20px;
+  background:rgb(24, 24, 24)
+}

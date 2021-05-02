@@ -7,6 +7,10 @@ var app=express();
 var request = require('request');
 //HTTPS
 var https=require('https');
+//  SESSION
+const session = require('express-session');
+const bcrypt=require('bcrypt');
+//
 const fs=require('fs');
 const sslServer=https.createServer(
     {
@@ -30,7 +34,60 @@ const client_secret_twitch=process.env.TWITCH_CLIENT_SECRET;
 app.use(express.static('public'));
 
 //-----------------------------------------------------------------------
-//-------------------API-------------------------------------------------
+//----------------------------SESSION------------------------------------
+//-----------------------------------------------------------------------
+app.use(session({
+    secret: "Shh, its a secret!",
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: true }
+    }));
+
+
+app.get('/login', async (req, res) => {
+    id=await get_all(req.query.username,"users");
+    if(id.error=="not_found"){
+       res.redirect('/intro')       
+    } else {
+        bcrypt.compare(req.query.password, id.password, function(err, result) {
+            if(!result)res.redirect('/intro')
+            else{
+                req.session.name=req.query.username;
+                res.redirect(url+'/')
+            }
+        });
+    }
+ });
+
+
+app.get('/register', async(req, res) => {
+    var all= await get_all(req.query.username,"users");
+    if(req.query.username==""|| req.query.password=="" || all.error!="not_found")res.redirect('/intro');
+    else {
+        const salt=await bcrypt.genSalt(10);
+        const hashedPassword=await bcrypt.hash(req.query.password, salt);
+        bcrypt.compare(req.query.password, hashedPassword, function(err, result) {
+        });
+        
+        var obj = {
+            password: hashedPassword, 
+            game: [],
+            error: "noone"
+         };
+        var r = await JSON.stringify(obj);
+        await put_doc(req.query.username,all._rev,r);
+        req.session.name= await req.query.username;
+        res.redirect('/');
+
+    }    
+});
+
+app.get('/intro', async (req, res) => {
+    res.sendFile(__dirname + '/login.html');
+});
+
+//-----------------------------------------------------------------------
+//--------------------------------API------------------------------------
 //-----------------------------------------------------------------------
 
 app.get('/creatorneo',function(req,res){
@@ -73,23 +130,27 @@ app.get('/get/torneo',function(req,res){
 });
 
 app.get('/get/partite',function(req,res){
-
-    if(req.query.nome==null || req.query.nome=="") res.status(405).send('Invalid input');
-    else get_all(req.query.nome,'users').then(function(all){
+    console.log(req.session.name)
+    get_all(req.session.name,'users').then(function(all){
         if(all.error=="not_found") res.status(405).send('Invalid input');
-        else res.send(all);
+        else res.send(all.game);
     });
 
 });
 
-app.get('/tornei', function(req, res) {    
-    res.sendFile(__dirname + '/tornei.html');
+app.get('/tornei', function(req, res) { 
+    if(!req.session.name)res.redirect('/intro');   
+    else res.sendFile(__dirname + '/tornei.html');
 }); 
 
-
+app.get('/restornei', function(req,res){
+    if(!req.session.name)res.redirect('/intro');   
+    else res.sendFile(__dirname + '/restornei.html');
+})
 
 app.get('/', function(req, res) {    
-    res.sendFile(__dirname + '/index1.html');
+    if(!req.session.name)res.redirect('/intro');
+    else res.sendFile(__dirname + '/index1.html');
 }); 
 
 
@@ -98,7 +159,7 @@ app.get('/', function(req, res) {
 //------------------------------------------------------
 
 app.get('/torneo/promemoria',function(req,res){
-    res.redirect("https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/calendar&redirect_uri=http://localhost:3000/token/&response_type=code&client_id="+client_id+'&state='+req.query.nome_torneo);
+    res.redirect("https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/calendar&redirect_uri=https://localhost:3000/token/&response_type=code&client_id="+client_id+'&state='+req.query.nome_torneo);
 });
                             // CHIEDO AUTORIZZAZIONE
 app.get('/token', function(req, res) {
@@ -107,7 +168,7 @@ app.get('/token', function(req, res) {
         code: req.query.code,
         client_id: client_id,
         client_secret: client_secret,
-        redirect_uri: "http://localhost:3000/token/",
+        redirect_uri: "https://localhost:3000/token/",
         grant_type: 'authorization_code'
     }                                            
                             //CHIEDO TOKEN
@@ -165,7 +226,8 @@ app.get('/token', function(req, res) {
                     console.log(error);
                 } else {
                     //console.log(response.statusCode, body);
-                    res.send(response.statusCode);
+                    if(response.statusCode == 200)res.redirect('/restornei');
+                    else res.send(response.statusCode);
                 }
             });
           });
@@ -354,11 +416,12 @@ app.get('/put_document',function(req,res){
 
 
 //------------------------------------------------------
-//---------------WEBSOCKET CLIENT-----------------------
+//---------------WEBSOCKET LATO SERVER------------------
 //------------------------------------------------------
 var log=["","","","","","","","","",""];
 var queue=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var scacchiera=new Array();
+var array=new Array();
 io.on('connection', function(socket) {
     var room=-1;
     var contatore_mossa=-1;
@@ -400,7 +463,7 @@ io.on('connection', function(socket) {
                                         [new Pezzo(5,0,"O"), new Pezzo(5,1,"O"), new Pezzo(5,2,"O"), new Pezzo(5,3,"O"), new Pezzo(5,4,"O"), new Pezzo(5,5,"O"), new Pezzo(5,6,"O"), new Pezzo(5,7,"O")],
                                         [P0B=new Pedone(6,0,"B"), P1B=new Pedone(6,1,"B"), P2B=new Pedone(6,2,"B"), P3B=new Pedone(6,3,"B"), P4B=new Pedone(6,4,"B"), P5B=new Pedone(6,5,"B"), P6B=new Pedone(6,6,"B"), P7B=new Pedone(6,7,"B")],
                                         [T0B=new Torre(7,0,"B"), C0B=new Cavallo(7,1,"B"), A0B=new Alfiere(7,2,"B"), RB=new Regina(7,3,"B"), KB=new Re(7,4,"B"), A1B=new Alfiere(7,5,"B"), C1B=new Cavallo(7,6,"B"), T1B=new Torre(7,7,"B")]];
-                        array=[[T0N,C0N,A0N,RN,A1N,C1N,T1N,P0N,P1N,P2N,P3N,P4N,P5N,P6N,P7N,KN],
+                        array[room]=[[T0N,C0N,A0N,RN,A1N,C1N,T1N,P0N,P1N,P2N,P3N,P4N,P5N,P6N,P7N,KN],
                                     [T0B,C0B,A0B,RB,A1B,C1B,T1B,P0B,P1B,P2B,P3B,P4B,P5B,P6B,P7B,KB]];
                     }
                     else{
@@ -419,15 +482,15 @@ io.on('connection', function(socket) {
     });
 
     socket.on('salva_partita',function(nome){
-
         var obj = {
             game: []
          };
+         console.log("salvo su ",nome)
          obj.game.push({time_game: time_game, Partita:log[room]}); 
         get_all(nome,"users").then(function(all){
             let i=0;
             if(all.error!='not_found'){
-                console.log(all);
+                //console.log(all);
                 for(i=0;i<all.game.length && all.game[i].time_game!=time_game;i++){
                 }
                 if(i<all.game.length && all.game[i].time_game==time_game)all.game.splice(i,1);
@@ -435,7 +498,7 @@ io.on('connection', function(socket) {
                 obj=all;
             }                    
             var r = JSON.stringify(obj);
-            console.log(put_doc(nome,all._rev,r));
+            put_doc(nome,all._rev,r);
         });
     });
     socket.on("disconnect", () => {
@@ -608,7 +671,7 @@ io.on('connection', function(socket) {
         });
         let noone_can_move=function(array,riga, scacchiera,room){
             for(var g=0;g<16;g++){
-                if(array[riga][g].can_move(scacchiera,room))return false;
+                if(array[room][riga][g].can_move(scacchiera,room))return false;
             }
             return true;
         }
@@ -623,35 +686,35 @@ io.on('connection', function(socket) {
                 make_move=0;
                 wait_move=1;
             }
-            k_active_xy=array[make_move][15];
-            k_passive_xy=array[wait_move][15];
+            k_active_xy=array[room][make_move][15];
+            k_passive_xy=array[room][wait_move][15];
             temp=scacchiera[room][x_out][y_out];
             temp.set_morto();
             scacchiera[room][x_in][y_in].pezzoMoveOn(x_in,y_in,x_out,y_out,scacchiera,room);
             //console.log(scacchiera[x_out][y_out]);
                 // VEDO SE L AVVERSARIO MI DA SCACCO DOPO LA MOSSA
             for(k=0;k<15&&mossa_consentita;k++){
-                if(array[wait_move][k].possible_move(k_active_xy.x,k_active_xy.y,scacchiera,room))mossa_consentita=false;
+                if(array[room][wait_move][k].possible_move(k_active_xy.x,k_active_xy.y,scacchiera,room))mossa_consentita=false;
             }
             
             if(mossa_consentita){
                 // VEDIAMO SE NOI DIAMO SCACCO
                 for(k=0;k<15&&!scacco;k++){
-                    if(array[make_move][k].possible_move(k_passive_xy.x,k_passive_xy.y,scacchiera,room))scacco=true;
+                    if(array[room][make_move][k].possible_move(k_passive_xy.x,k_passive_xy.y,scacchiera,room))scacco=true;
                 }
                 if(scacco){
                     matto=true;
                     //DIAMO SCACCO. DOBBIAMO VEDERE SE IL RE AVVERSIARIO SI PUO MUOVERE 
                     //OPPURE IL PEZZO CHE DA SCACCO PUO ESSERE MANGIATO 
                     //OPPURE PUO ESSERE COPERTO IL PATH
-                    if(array[wait_move][15].can_move(scacchiera,room))matto=false;
+                    if(array[room][wait_move][15].can_move(array,make_move,scacchiera,room))matto=false;
                     else matto=true;
                     if(matto){
                         //IL RE NON SI PUO MUOVERE VEDIAMO SE QUALCUNO PUO MANGIARE
                         for(k=0;k<15 && matto;k++){
-                            if(array[wait_move][k].possible_move(x_out,y_out,scacchiera,room))matto=falso;
+                            if(array[room][wait_move][k].possible_move(x_out,y_out,scacchiera,room))matto=falso;
                         }
-                        if(!matto){
+                        if(matto){
                             //NESSUNO PUO MANGIARE, VEDIAMO SE QUALCUNO SI PUO' METTERE DAVANTI AL RE
                             //SE E' UN CAVALLO O UN PEDONE RINUNCIA.
                             if(scacchiera[room][x_out][y_out].prendi_tipo()!="Cavallo" && scacchiera[room][x_out][y_out].prendi_tipo()!="Pedone"){
@@ -661,7 +724,7 @@ io.on('connection', function(socket) {
                                         new Promise((resolve, reject) => {
                                             for(k=y_out-1;k>k_passive_xy.y && matto;k--){
                                                 for(p=0;p<15 && matto;p++){
-                                                    if(array[wait_move][p].possible_move(x_out,k,scacchiera,room))matto=false;
+                                                    if(array[room][wait_move][p].possible_move(x_out,k,scacchiera,room))matto=false;
                                                 }
                                             }
                                         }).finally(() => mossa.then(a=>muovi(a)))
@@ -670,7 +733,7 @@ io.on('connection', function(socket) {
                                         new Promise((resolve, reject) => {
                                             for(k=y_out+1;k<k_passive_xy.y && matto;k++){
                                                 for(p=0;p<15 && matto;p++){
-                                                    if(array[wait_move][p].possible_move(x_out,k,scacchiera,room))matto=false;
+                                                    if(array[room][wait_move][p].possible_move(x_out,k,scacchiera,room))matto=false;
                                                 }
                                             }
                                         }).finally(() => mossa.then(a=>muovi(a)))
@@ -681,7 +744,7 @@ io.on('connection', function(socket) {
                                     if(x_out>k_passive_xy.x){
                                         for(k=x_out-1;k>k_passive_xy.x && matto;k--){
                                             for(p=0;p<15 && matto;p++){
-                                                if(array[wait_move][p].possible_move(k,y_out,scacchiera,room))matto=false;
+                                                if(array[room][wait_move][p].possible_move(k,y_out,scacchiera,room))matto=false;
                                             }
                                         }
                                         mossa.then(a=>muovi(a));
@@ -689,7 +752,7 @@ io.on('connection', function(socket) {
                                     else{
                                         for(k=x_out+1;k<k_passive_xy.x && matto;k++){
                                             for(p=0;p<15 && matto;p++){
-                                                if(array[wait_move][p].possible_move(k,y_out,scacchiera,room))matto=false;
+                                                if(array[room][wait_move][p].possible_move(k,y_out,scacchiera,room))matto=false;
                                             }
                                         }
                                         mossa.then(a=>muovi(a));
@@ -702,7 +765,7 @@ io.on('connection', function(socket) {
                                         if(y_out>k_passive_y){
                                             for(k=1;x_out+k<k_passive_xy.x && matto;k++){
                                                 for(p=0;p<15 && matto;p++){
-                                                    if(array[wait_move][p].possible_move(x_out+k,y_out-k,scacchiera,room))matto=false;
+                                                    if(array[room][wait_move][p].possible_move(x_out+k,y_out-k,scacchiera,room))matto=false;
                                                 }
                                             }
                                             mossa.then(a=>muovi(a));
@@ -711,7 +774,7 @@ io.on('connection', function(socket) {
                                         else{
                                             for(k=1;x_out+k<k_passive_xy.x && matto;k++){
                                                 for(p=0;p<15 && matto;p++){
-                                                    if(array[wait_move][p].possible_move(x_out+k,y_out+k,scacchiera,room))matto=false;
+                                                    if(array[room][wait_move][p].possible_move(x_out+k,y_out+k,scacchiera,room))matto=false;
                                                 }
                                             }
                                             mossa.then(a=>muovi(a));
@@ -722,7 +785,7 @@ io.on('connection', function(socket) {
                                         if(y_out<k_passive_xy){
                                             for(k=1;x_out-k>k_passive_xy.x && matto;k++){
                                                 for(p=0;p<15 && matto;p++){
-                                                    if(array[wait_move][p].possible_move(x_out-k,y_out+k,scacchiera,room))matto=false;
+                                                    if(array[room][wait_move][p].possible_move(x_out-k,y_out+k,scacchiera,room))matto=false;
                                                 }
                                             }
                                             mossa.then(a=>muovi(a));
@@ -731,7 +794,7 @@ io.on('connection', function(socket) {
                                         else{
                                             for(k=1;x_out-k>k_passive_xy.x && matto;k++){
                                                 for(p=0;p<15 && matto;p++){
-                                                    if(array[wait_move][p].possible_move(x_out-k,y_out-k,scacchiera,room))matto=false;
+                                                    if(array[room][wait_move][p].possible_move(x_out-k,y_out-k,scacchiera,room))matto=false;
                                                 }
                                             }
                                             mossa.then(a=>muovi(a));
@@ -837,7 +900,6 @@ io.on('connection', function(socket) {
             }
         });
       });
-
 });
 
 /*
@@ -916,8 +978,8 @@ class Pezzo{
     }
     difeso(array,riga,scacchiera,room){
         for(var i=0;i<16;i++){
-            console.log(array[riga][i]," : ",array[riga][i].protegge(this.x,this.y,scacchiera,room))
-            if(array[riga][i].protegge(this.x,this.y,scacchiera,room))return true;
+            console.log(array[room][riga][i]," : ",array[room][riga][i].protegge(this.x,this.y,scacchiera,room))
+            if(array[room][riga][i].protegge(this.x,this.y,scacchiera,room))return true;
         }
         return false;     
     }
@@ -1088,7 +1150,7 @@ class Torre extends Pezzo{
                 if(y_fine>this.y)y_fine--;
                 else y_fine++;
             }
-            else if(y_fine=this.y){
+            else if(y_fine==this.y){
                 if(x_fine>this.x)x_fine--;
                 else x_fine++;
             }
@@ -1209,18 +1271,27 @@ class Re extends Pezzo{
         }
         else return false;
     }
-    can_move(scacchiera,room){
+    can_move(array,make_move,scacchiera,room){
         if(this.is_morto()) return false
         //Re can_move
-        else if(this.x-1>=0 && this.y+1<8 && scacchiera[room][this.x-1][this.y+1].prendi_colore()!=this.colore)return true;
-        else if(this.x-1>=0 && this.y-1>=0 && scacchiera[room][this.x-1][this.y-1].prendi_colore()!=this.colore)return true;
-        else if(this.x+1<8 && this.y-1>=0 && scacchiera[room][this.x+1][this.y-1].prendi_colore()!=this.colore)return true;
-        else if(this.x+1<8 && this.y+1<8 && scacchiera[room][this.x+1][this.y+1].prendi_colore()!=this.colore)return true;
-        else if(this.y+1<8 && scacchiera[room][this.x][this.y+1].prendi_colore()!=this.colore)return true;
-        else if(this.y-1>=0 && scacchiera[room][this.x][this.y-1].prendi_colore()!=this.colore)return true;
-        else if(this.x-1>=0 && scacchiera[room][this.x-1][this.y].prendi_colore()!=this.colore)return true;
-        else if(this.x+1<8 && scacchiera[room][this.x+1][this.y].prendi_colore()!=this.colore)return true;
+        else if(this.x-1>=0 && this.y+1<8 && scacchiera[room][this.x-1][this.y+1].prendi_colore()!=this.colore && this.no_one_attack(array,make_move,this.x-1,this.y+1,scacchiera,room))return true;
+        else if(this.x-1>=0 && this.y-1>=0 && scacchiera[room][this.x-1][this.y-1].prendi_colore()!=this.colore && this.no_one_attack(array,make_move,this.x-1,this.y-1,scacchiera,room))return true;
+        else if(this.x+1<8 && this.y-1>=0 && scacchiera[room][this.x+1][this.y-1].prendi_colore()!=this.colore && this.no_one_attack(array,make_move,this.x+1,this.y-1,scacchiera,room))return true;
+        else if(this.x+1<8 && this.y+1<8 && scacchiera[room][this.x+1][this.y+1].prendi_colore()!=this.colore && this.no_one_attack(array,make_move,this.x+1,this.y+1,scacchiera,room))return true;
+        else if(this.y+1<8 && scacchiera[room][this.x][this.y+1].prendi_colore()!=this.colore && this.no_one_attack(array,make_move,this.x,this.y+1,scacchiera,room))return true;
+        else if(this.y-1>=0 && scacchiera[room][this.x][this.y-1].prendi_colore()!=this.colore && this.no_one_attack(array,make_move,this.x,this.y-1,scacchiera,room))return true;
+        else if(this.x-1>=0 && scacchiera[room][this.x-1][this.y].prendi_colore()!=this.colore && this.no_one_attack(array,make_move,this.x-1,this.y,scacchiera,room))return true;
+        else if(this.x+1<8 && scacchiera[room][this.x+1][this.y].prendi_colore()!=this.colore && this.no_one_attack(array,make_move,this.x+1,this.y,scacchiera,room))return true;
         else return false;
+    }
+    no_one_attack(array,make_move,x,y,scacchiera,room){
+        for(var i=0;i<16;i++){
+            if(scacchiera[room][x][y].prendi_colore()==this.opposite_colore() && array[room][make_move][i].protegge(x,y,scacchiera,room))return false
+            else if(array[room][make_move][i].possible_move(x,y,scacchiera,room)){
+                return false;
+            }
+        }
+        return true;
     }
 }
 

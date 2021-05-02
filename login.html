@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chessing</title>
+    <link rel="stylesheet" href="login.css">
+
+</head>
+<body>
+  <div class='bar'>
+    <nav>
+      <h2>Chessing</h2>
+      <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/tornei">Tornei</a></li>
+          <li><a href="/s">Streamer Twitch</a></li>
+      </ul>
+    </nav>
+  </div>
+    
+    <h1 style="text-align: center;">Login</h1>
+<form action="/login" method="get" class="lg-form">
+  <div>
+    <label for="username">Username</label>
+    <input type="username" name="username" id="username" />
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" />
+  </div>
+  <div>
+    <input type="submit" value="Login" />
+  </div>
+</form>
+
+<br />
+
+<h1 style="text-align: center;">Registrati</h1>
+<form action="/register" method="get" class="lg-form">
+  <div>
+    <label for="username">Username</label>
+    <input type="username" name="username" id="username" />
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" />
+  </div>
+  <div>
+    <input type="submit" value="Registrati" />
+  </div>
+</form>
+
+<br />
+
+<script>
+    var mex=document.getElementById('message');
+    var output=document.getElementById('output');
+    var chatte=document.getElementById('chatte');
+</script>
+
+
+</body>
+</html>
